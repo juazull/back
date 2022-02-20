@@ -1,5 +1,5 @@
 <?php
-namespace DaVinci\Utilities;
+namespace Millchat\Utilities;
 
 class Str
 {

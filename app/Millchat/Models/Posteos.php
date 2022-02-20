@@ -48,6 +48,8 @@ class Posteos implements JsonSerializable
      * @var string
      */
     protected $imagen_posteo;
+    protected $nombre_usuario;
+    protected $imagen_usuario;
 
     /**
      * La fecha del posteo
@@ -186,9 +188,19 @@ class Posteos implements JsonSerializable
         $array['texto_posteo'] = $this->gettexto_posteo();
         $array['imagen_posteo'] = $this->getimagen_posteo();
         $array['usuario_posteo'] = $this->getusuario_posteo();
+        $array['nombre_usuario'] = $this->getnombre_usuario();
+        $array['imagen_usuario'] = $this->getimagen_usuario();
         $array['fecha'] = $this->getfecha();
         $array['contador_likes'] = $this->getcontador_likes();
         return $array;
+    }
+
+    public function getnombre_usuario(){
+        return $this->nombre_usuario;
+    }
+
+    public function getimagen_usuario(){
+        return $this->imagen_usuario;
     }
 
     /**

@@ -5,7 +5,7 @@ use Millchat\Core\DB;
 use Exception;
 use JsonSerializable;
 use PDO;
-
+use DateTime;
 
 /**
  * clase perfil
@@ -48,6 +48,16 @@ class Perfiles implements JsonSerializable
      */
     protected $edad_usuario;
 
+    /**
+     * Fecha de nacimiento de la persona *
+     *
+     * @var int
+     */
+    protected $fecha_nacimiento;
+
+
+
+    
     /**
      * Esta funcion recive un id_usuario y retorna un objeto de perfil de la base.
      * *
@@ -116,22 +126,23 @@ class Perfiles implements JsonSerializable
      * @throws Exception
      * @return boolean
      */
-    public function editarPerfil()
+    /*public function editarPerfil()
     {
         $db = DB::getConnection();
-        $query = "UPDATE perfil_usuario SET nombre_usuario=?, apellido_usuario=?, pais_usuario=?, edad_usuario=? WHERE id_usuario=?";
+        $query = "UPDATE perfil_usuario SET nombre_usuario=?, apellido_usuario=?, pais_usuario=?, edad_usuario=?, fecha_nacimiento=? WHERE id_usuario=?";
         $statement = $db->prepare($query);
         $statement->bindParam(1, $this->nombre_usuario);
         $statement->bindParam(2, $this->apellido_usuario);
         $statement->bindParam(3, $this->pais_usuario);
         $statement->bindParam(4, $this->edad_usuario);
         $statement->bindParam(5, $this->id_usuario_usuario);
+        
 
         if (! $statement->execute()) {
             throw new Exception('Nose pudo modificar el perfil');
         }
         return true;
-    }
+    }*/
     
     /**
      * Guarda la informacion del perfil en la base de datos.
@@ -143,7 +154,7 @@ class Perfiles implements JsonSerializable
     public function editarPerfilDatos($data)
     {
         $db = DB::getConnection();
-        $query = "UPDATE perfil_usuario SET nombre_usuario=?, apellido_usuario=?, pais_usuario=?, edad_usuario=? WHERE id_usuario=?";
+        $query = "UPDATE perfil_usuario SET nombre_usuario=?, apellido_usuario=?, pais_usuario=?, edad_usuario=?, fecha_nacimiento=? WHERE id_usuario=?";
         $statement = $db->prepare($query);
         $statement->bindParam(1, $data['nombre_usuario']);
         $statement->bindParam(2, $data['apellido_usuario']);
@@ -151,6 +162,16 @@ class Perfiles implements JsonSerializable
         $statement->bindParam(4, $data['edad_usuario']);
         $statement->bindParam(5, $data['id_usuario']);
         
+        
+        if($data['fecha_nacimiento'] !== null && $data['fecha_nacimiento'] !== ""){
+            $nueva_fecha = new DateTime($data['fecha_nacimiento']);
+            $nueva_fecha = date_format($nueva_fecha,"Y-m-d H:i:s");
+            $statement->bindParam(6, $data['fecha_nacimiento']); 
+            
+        }
+        //var_dump($data); die();
+
+
         if (!$statement->execute()) {
             throw new Exception('Nose pudo modificar el perfil');
         }
@@ -221,6 +242,17 @@ class Perfiles implements JsonSerializable
         return $this->edad_usuario;
     }
 
+
+     /**
+     * Devuelve la fecha denacimiento de la persona
+     *
+     * @return int
+     */
+    public function getfecha_nacimiento()
+    {
+        return $this->fecha_nacimiento;
+    }
+
     /**
      * Setea el id
      *
@@ -269,6 +301,16 @@ class Perfiles implements JsonSerializable
     public function setedad_usuario($edad_usuario)
     {
         $this->edad_usuario = $edad_usuario;
+    }
+
+    /**
+     * Setea la fecha de nacimiento de la persona
+     *
+     * @param int $fecha_nacimiento
+     */
+    public function setfecha_nacimiento($fecha_nacimiento)
+    {
+        $this->fecha_nacimiento = $fecha_nacimiento;
     }
 }
 

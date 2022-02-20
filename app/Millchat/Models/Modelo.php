@@ -1,12 +1,10 @@
 <?php
 namespace Millchat\Models;
 
-use DaVinci\Utilities\Str;
+use Millchat\Utilities\Str;
 use Millchat\Core\DB;
 use PDO;
 
-
-require_once (__DIR__ . "/../Utilities/Str.php");
 
 /**
  * Class Modelo

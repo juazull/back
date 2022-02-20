@@ -49,6 +49,12 @@ class Comentarios implements JsonSerializable
     protected $comentario;
 
     /**
+     *
+     * @var 
+     */
+    protected $nombre_usuario;
+
+    /**
      * Esta funcion recive un id comentario y retorna un objeto en la base.
      *
      * @param int $id_comentario
@@ -81,6 +87,7 @@ class Comentarios implements JsonSerializable
         $array['id_usuario'] = $this->getUsuarios();
         $array['fecha'] = $this->getfecha();
         $array['comentario'] = $this->getcomentario();
+        $array['nombre_usuario'] = $this->getnombre_usuario();
         return $array;
     }
 
@@ -117,7 +124,7 @@ class Comentarios implements JsonSerializable
     public function listarComentarioPosteo($id_posteo)
     {
         $db = DB::getConnection();
-        $query = "SELECT * FROM comentarios Where id_posteo=? ORDER BY fecha DESC";
+        $query = "SELECT * FROM comentarios c JOIN usuarios u ON c.id_usuario = u.id_usuario Where id_posteo=? ORDER BY fecha DESC";
         $statement = $db->prepare($query);
         $statement->bindParam(1, $id_posteo);
         $statement->execute();
@@ -188,6 +195,14 @@ class Comentarios implements JsonSerializable
     public function getcomentario()
     {
         return $this->comentario;
+    }
+
+    /**
+     * Devuelve la variable fecha
+     */
+    public function getnombre_usuario()
+    {
+        return $this->nombre_usuario;
     }
 
     /**
